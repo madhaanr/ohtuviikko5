@@ -64,13 +64,14 @@ public class KauppaTest {
         verify(pankki).tilisiirto("Marko", 1, "0575", "33333-44455", 5);
     }
     @Test
-    public void pekkaOstaMaitoa() {
+    public void markoOstaaMaitoajaPerunoita() {
         PankkiInterface pankki = mock(PankkiInterface.class);
-        when(pankki.tilisiirto("pekka", 1, "12345", "33333-44455", 5)).thenReturn(Boolean.TRUE);
-        
+       
         VarastoInterface varasto = mock(VarastoInterface.class);
         when(varasto.saldo(1)).thenReturn(10); 
         when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
+        when(varasto.saldo(2)).thenReturn(10); 
+        when(varasto.haeTuote(2)).thenReturn(new Tuote(2, "perunoita", 15));
         
         ViitegeneraattoriInterface viite = mock(ViitegeneraattoriInterface.class);
         when(viite.uusi()).thenReturn(1);
@@ -78,7 +79,8 @@ public class KauppaTest {
         Kauppa kauppa = new Kauppa(varasto,pankki,viite);
         kauppa.aloitaAsiointi();
         kauppa.lisaaKoriin(1);
-        kauppa.tilimaksu("pekka", "12345");
-        verify(pankki).tilisiirto("pekka", 1, "12345", "33333-44455", 5);
+        kauppa.lisaaKoriin(2);
+        kauppa.tilimaksu("Marko", "0575");
+        verify(pankki).tilisiirto("Marko", 1, "0575", "33333-44455", 20);
     }
 }

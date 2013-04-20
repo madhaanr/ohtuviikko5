@@ -12,6 +12,7 @@ public class Ostoskori implements OstoskoriInterface {
 
     @Override
     public void lisaa(Tuote t) {
+        
         tuotteet.add(t);
     }
 
