@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import ohtuesimerkki.Player;
 
 public class StaticsticsTest {
 
@@ -26,8 +27,18 @@ public class StaticsticsTest {
 
     @Before
     public void setUp() {
+        List<Player> lista = new ArrayList();
+        lista.add(new Player("Semenko", "EDM", 4, 12));
+        lista.add(new Player("Kurri", "EDM", 37, 53));
+        lista.add(new Player("Gretzky", "EDM", 35, 89));
+        List<Player> lista2 = new ArrayList();
+        lista2.add(new Player("Gretzky", "EDM", 35, 89));
+        lista2.add(new Player("Lemieux", "PIT", 45, 54));
+        lista2.add(new Player("Yzerman", "DET", 42, 56));
         stats = mock(Statistics.class);
-        
+        when(stats.search("Lemieux")).thenReturn(new Player("Lemieux", "PIT", 45, 54));
+        when(stats.team("EDM")).thenReturn(lista);
+        when(stats.topScorers(2)).thenReturn(lista2);
     }
 
     @Test
